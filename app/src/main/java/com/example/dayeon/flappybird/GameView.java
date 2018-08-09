@@ -33,6 +33,7 @@ public class GameView extends View {
     int birdFrame = 0;
     int velocity = 0, gravity = 3; //Lets play around with these values
 
+
     public GameView(Context context){
         super(context);
         handler = new Handler() {
