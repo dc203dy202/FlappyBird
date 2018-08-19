@@ -3,6 +3,7 @@ package com.example.dayeon.flappybird;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -38,6 +39,7 @@ public class GameView extends View {
 
     //lets create a bitmap array for the bird
     Bitmap birds[];
+    Bitmap numbers[];
     int birdWidth, birdHeight;
     //We need an integer variable to keep track of bird image frame
     int birdFrame = 0;
@@ -56,8 +58,10 @@ public class GameView extends View {
 
     boolean alive = true;
     boolean firstSet = true;
+    boolean toast = false;
     int scoreCheck = 0;
     int score = 0;
+    short numSize[] = {0, 0, 0, 0};
 
 
 
@@ -83,6 +87,19 @@ public class GameView extends View {
         birds = new Bitmap[2];
         birds[0] = BitmapFactory.decodeResource(getResources(), R.drawable.bird);
         birds[1] = BitmapFactory.decodeResource(getResources(), R.drawable.bird2);
+        numbers = new Bitmap[10];
+        numbers[0] = BitmapFactory.decodeResource(getResources(), R.drawable.num0);
+        numbers[1] = BitmapFactory.decodeResource(getResources(), R.drawable.num1);
+        numbers[2] = BitmapFactory.decodeResource(getResources(), R.drawable.num2);
+        numbers[3] = BitmapFactory.decodeResource(getResources(), R.drawable.num3);
+        numbers[4] = BitmapFactory.decodeResource(getResources(), R.drawable.num4);
+        numbers[5] = BitmapFactory.decodeResource(getResources(), R.drawable.num5);
+        numbers[6] = BitmapFactory.decodeResource(getResources(), R.drawable.num6);
+        numbers[7] = BitmapFactory.decodeResource(getResources(), R.drawable.num7);
+        numbers[8] = BitmapFactory.decodeResource(getResources(), R.drawable.num8);
+        numbers[9] = BitmapFactory.decodeResource(getResources(), R.drawable.num9);
+
+
         birdWidth = birds[0].getWidth();
         birdHeight = birds[0].getHeight();
         birdX = dWidth/2 - birds[0].getWidth()/2; //Initially bird will be on center
@@ -145,6 +162,7 @@ public class GameView extends View {
                 if(tubeX[0] < birdX + birdWidth && firstSet){
                     score ++;
                     firstSet = false;
+                    toast = true;
                     scoreCheck = 0;
                 }
                 tubeX[i] -= tubeVelocity;
@@ -152,15 +170,19 @@ public class GameView extends View {
                     tubeX[i] += numberOfTubes * distanceBetweenTubes;
                     topTubeY[i] = minTubeOffset + random.nextInt(maxTubeOffset - minTubeOffset + 1); //topTubeY will vary between minTubeOffset and maxTubeOffset
                     score++;
+                    toast = true;
                     scoreCheck = i == 3 ? 0 : i + 1;
                 }
                 canvas.drawBitmap(toptube, tubeX[i], topTubeY[i] - toptube.getHeight(), null);
                 canvas.drawBitmap(bottomtube, tubeX[i], topTubeY[i] + gap, null);
             }
-            canvas.drawText(String.valueOf(tubeX[scoreCheck]) + ", " + String.valueOf(scoreCheck) + ", " + String.valueOf(birdX + birdWidth), 100, 100, texts);
-            if((((birdX + birdWidth) > tubeX[scoreCheck])) && ((birdX < (tubeX[scoreCheck] + toptube.getWidth()))) &&
+            canvas.drawText(String.valueOf(tubeX[scoreCheck]) + ", " + String.valueOf(scoreCheck) + ", " + String.valueOf(birdX + birdWidth), 200, 200, texts);
+
+            if(toast && (((birdX + birdWidth) > tubeX[scoreCheck])) && ((birdX < (tubeX[scoreCheck] + toptube.getWidth()))) &&
                     ((birdY < topTubeY[scoreCheck]) || ((birdY + birdHeight) > (topTubeY[scoreCheck] + gap)))){
-                Toast.makeText(getContext(), String.valueOf(scoreCheck), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Collision", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                toast = false;
             }
         }
 
@@ -168,13 +190,20 @@ public class GameView extends View {
         //We want the bird to be displayed at the centre of the screen
         //Both birds[0] and birds[1] have same dimension
         canvas.drawBitmap(birds[birdFrame], birdX, birdY, null);
-        Paint paint = new Paint();
-        paint.setTextSize(50);
-        paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(String.valueOf(score), dWidth / 2, dHeight / 2 - 100, paint);
+//        Paint paint = new Paint();
+//        paint.setTextSize(50);0]s
+//        paint.setTextAlign(Paint.Align.CENTER);
+//        canvas.drawText(String.valueOf(score), dWidth / 2, dHeight / 2 - 100, paint);
+        drawNumbers(score, 10, 10, canvas);
         handler.postDelayed(runnable, UPDATE_MILLS);
     }
 
+    public void drawNumbers(int num, int x, int y, Canvas canvas){
+        canvas.drawBitmap(numbers[num / 100], x, y, null);
+        canvas.drawBitmap(numbers[num % 100 / 10], x + numbers[num / 100].getWidth(), y, null);
+        canvas.drawBitmap(numbers[num % 10], x + numbers[num / 100].getWidth() + numbers[num % 100 / 10].getWidth(), y, null);
+
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
