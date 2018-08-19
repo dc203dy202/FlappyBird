@@ -47,7 +47,7 @@ public class GameView extends View {
     // We need to keep track of bird position
     int birdX, birdY;
     boolean gameState = false;
-    int gap = 250; //Gap between top tube and bottom tube
+    int gap = 270; //Gap between top tube and bottom tube
     int minTubeOffset, maxTubeOffset;
     int numberOfTubes = 4;
     int distanceBetweenTubes;
@@ -181,7 +181,8 @@ public class GameView extends View {
             if(toast && (((birdX + birdWidth) > tubeX[scoreCheck])) && ((birdX < (tubeX[scoreCheck] + toptube.getWidth()))) &&
                     ((birdY < topTubeY[scoreCheck]) || ((birdY + birdHeight) > (topTubeY[scoreCheck] + gap)))){
                 Toast.makeText(getContext(), "Collision", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(), MainActivity.class);
+                Intent intent = new Intent(getContext(), ScoreActivity.class);
+                getContext().startActivity(intent);
                 toast = false;
             }
         }
