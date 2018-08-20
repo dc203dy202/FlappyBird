@@ -180,10 +180,12 @@ public class GameView extends View {
 
             if(toast && (((birdX + birdWidth) > tubeX[scoreCheck])) && ((birdX < (tubeX[scoreCheck] + toptube.getWidth()))) &&
                     ((birdY < topTubeY[scoreCheck]) || ((birdY + birdHeight) > (topTubeY[scoreCheck] + gap)))){
+                gameState = false;
+                toast = false;
                 Toast.makeText(getContext(), "Collision", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(), ScoreActivity.class);
+                intent.putExtra("score", String.valueOf(score));
                 getContext().startActivity(intent);
-                toast = false;
             }
         }
 

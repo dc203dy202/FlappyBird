@@ -19,7 +19,8 @@
         <activity android:name=".StartGame"></activity>
         <activity
             android:name=".ScoreActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Dialog"
+            >
 
         </activity>
     </application>
