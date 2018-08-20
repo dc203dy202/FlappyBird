@@ -9,6 +9,7 @@ import android.widget.Toast;
 public class StartGame extends Activity {
     public static final int REQUEST_CODE_MENU = 101;
     GameView gameView;
+    public static StartGame startGame;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -16,12 +17,9 @@ public class StartGame extends Activity {
         gameView = new GameView(this);
         setContentView(gameView);
 
+        startGame = StartGame.this;
     }
 
-    public void loadScoreView(){
-        Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_MENU);
-    }
     private long time= 0;
     @Override
     public void onBackPressed(){

@@ -34,6 +34,8 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     public void onBtnRestartClicked(View v){
+        StartGame startGame = (StartGame)StartGame.startGame;
+        startGame.finish();
         Intent intent = new Intent(this, StartGame.class);
         startActivity(intent);
         finish();

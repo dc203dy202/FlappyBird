@@ -47,7 +47,7 @@ public class GameView extends View {
     // We need to keep track of bird position
     int birdX, birdY;
     boolean gameState = false;
-    int gap = 270; //Gap between top tube and bottom tube
+    int gap = 350; //Gap between top tube and bottom tube
     int minTubeOffset, maxTubeOffset;
     int numberOfTubes = 4;
     int distanceBetweenTubes;
@@ -106,8 +106,8 @@ public class GameView extends View {
         birdX = dWidth/2 - birds[0].getWidth()/2; //Initially bird will be on center
         birdY = dHeight/2 - birds[0].getHeight()/2;
         distanceBetweenTubes = dWidth * 3 / 4; //Our assumption
-        minTubeOffset = gap / 2 + dHeight / 6;
-        maxTubeOffset = dHeight - minTubeOffset - gap - dHeight / 6;
+        minTubeOffset = gap / 2 + dHeight / 7;
+        maxTubeOffset = dHeight - minTubeOffset - gap - dHeight / 7;
         random = new Random();
 
 
