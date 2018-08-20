@@ -54,7 +54,7 @@ public class GameView extends View {
     int tubeX[] = new int[numberOfTubes];
     int topTubeY[] = new int[numberOfTubes];
     Random random;
-    int tubeVelocity = 10;
+    float tubeVelocity = 8;
 
     boolean alive = true;
     boolean firstSet = true;
@@ -171,6 +171,7 @@ public class GameView extends View {
                     tubeX[i] += numberOfTubes * distanceBetweenTubes;
                     topTubeY[i] = minTubeOffset + random.nextInt(maxTubeOffset - minTubeOffset + 1); //topTubeY will vary between minTubeOffset and maxTubeOffset
                     score++;
+                    tubeVelocity += 0.6;
                     toast = true;
                     scoreCheck = i == 3 ? 0 : i + 1;
                 }
