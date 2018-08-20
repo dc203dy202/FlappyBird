@@ -54,13 +54,14 @@ public class GameView extends View {
     int tubeX[] = new int[numberOfTubes];
     int topTubeY[] = new int[numberOfTubes];
     Random random;
-    int tubeVelocity = 8;
+    int tubeVelocity = 10;
 
     boolean alive = true;
     boolean firstSet = true;
     boolean toast = false;
     int scoreCheck = 0;
     int score = 0;
+    int difficulty = 5;
     short numSize[] = {0, 0, 0, 0};
 
 
@@ -105,8 +106,8 @@ public class GameView extends View {
         birdX = dWidth/2 - birds[0].getWidth()/2; //Initially bird will be on center
         birdY = dHeight/2 - birds[0].getHeight()/2;
         distanceBetweenTubes = dWidth * 3 / 4; //Our assumption
-        minTubeOffset = gap / 2;
-        maxTubeOffset = dHeight - minTubeOffset - gap;
+        minTubeOffset = gap / 2 + dHeight / 6;
+        maxTubeOffset = dHeight - minTubeOffset - gap - dHeight / 6;
         random = new Random();
 
 
@@ -176,13 +177,13 @@ public class GameView extends View {
                 canvas.drawBitmap(toptube, tubeX[i], topTubeY[i] - toptube.getHeight(), null);
                 canvas.drawBitmap(bottomtube, tubeX[i], topTubeY[i] + gap, null);
             }
-            canvas.drawText(String.valueOf(tubeX[scoreCheck]) + ", " + String.valueOf(scoreCheck) + ", " + String.valueOf(birdX + birdWidth), 200, 200, texts);
+//            canvas.drawText(String.valueOf(tubeX[scoreCheck]) + ", " + String.valueOf(scoreCheck) + ", " + String.valueOf(birdX + birdWidth), 200, 200, texts);
 
-            if(toast && (((birdX + birdWidth) > tubeX[scoreCheck])) && ((birdX < (tubeX[scoreCheck] + toptube.getWidth()))) &&
-                    ((birdY < topTubeY[scoreCheck]) || ((birdY + birdHeight) > (topTubeY[scoreCheck] + gap)))){
+            if(toast && (((birdX + birdWidth -difficulty) > tubeX[scoreCheck])) && ((birdX + difficulty < (tubeX[scoreCheck] + toptube.getWidth()))) &&
+                    ((birdY + difficulty < topTubeY[scoreCheck]) || ((birdY + birdHeight - difficulty) > (topTubeY[scoreCheck] + gap)))){
                 gameState = false;
                 toast = false;
-                Toast.makeText(getContext(), "Collision", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Collision", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(), ScoreActivity.class);
                 intent.putExtra("score", String.valueOf(score));
                 getContext().startActivity(intent);

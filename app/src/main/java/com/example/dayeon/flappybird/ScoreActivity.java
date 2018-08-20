@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ScoreActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         scoreView = findViewById(R.id.scoreView);
         scoreView.setText("score : " + intent.getStringExtra("score"));
+
     }
 
     @Override
@@ -36,4 +38,16 @@ public class ScoreActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private long time= 0;
+    @Override
+    public void onBackPressed(){
+        if(System.currentTimeMillis()-time>=2000){
+            time=System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"뒤로 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
+        }else if(System.currentTimeMillis()-time<2000){
+            finishAffinity();
+        }
+    }
+
 }
